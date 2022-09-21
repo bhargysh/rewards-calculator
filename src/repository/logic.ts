@@ -1,10 +1,16 @@
 import { Transaction, PointsResponse } from "../models";
 
-const db: Array<Transaction> = []
+export const db: Array<Transaction> = []
 
 export const addTransaction = (details: Transaction) => {
     try {
-        db.push(details)
+        if (db.length == 0) {
+            db.push(details)
+        }
+        else {
+            db.push(details)
+            db.sort((t1, t2) => t1.timestamp - t2.timestamp) //TODO: move this sort into spending route
+        }
         return true
     } catch (error) {
         console.error(`Could not add transaction due to error: ${error}`);
