@@ -1,34 +1,25 @@
 import express from 'express';
 import BodyParser from 'body-parser';
-import { addTransaction, fetchPoints } from './repository/logic';
-import { convertToUnixTime } from './validation';
+import { fetchPoints } from './repository/logic';
+import { transactionRouteHandler } from './handlers';
 
-const app = express();
+const env = process.env['ENV']
+export const app = express();
 const port = 3000;
 
 app.use(BodyParser.json())
 
-app.post("/transaction", (req, res) => {
-  const unixTimestamp = convertToUnixTime(req.body.timestamp)
-  if (unixTimestamp) {
-    const transaction = {
-      payer: req.body.payer,
-      points: req.body.points,
-      timestamp: unixTimestamp
-    }
-    addTransaction(transaction) ? res.status(200).send("Success") : res.status(500).send("Server Error")
-  } else {
-    res.status(400).send("Bad request, invalid timestamp")
-  }
-});
+app.post('/transaction', (req, res) => transactionRouteHandler(req, res));
 
-app.get("/points", (req, res) => {
+app.get('/points', (req, res) => {
   const response = fetchPoints()
 
   res.status(200).send(response)
 
 });
 
-app.listen(port, () => {
-  console.log(`Rewards calculator service is running on port ${port}.`);
-});
+if (env && env == 'main') {
+  app.listen(port, () => {
+    console.log(`Rewards calculator service is running on port ${port}.`);
+  });
+}

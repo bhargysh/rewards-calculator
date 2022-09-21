@@ -1,4 +1,4 @@
-import { addTransaction, db } from "../src/repository/logic"
+import { addTransaction, db } from '../src/repository/logic'
 
 describe('addTransaction', () => {
     it('should save new transaction in order of timestamp', () => {

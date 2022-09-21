@@ -4,4 +4,4 @@ export interface Transaction {
     timestamp: number
 }
 
-export type PointsResponse = Omit<Transaction, "timestamp">
+export type PointsResponse = Omit<Transaction, 'timestamp'>

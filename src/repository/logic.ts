@@ -1,4 +1,4 @@
-import { Transaction, PointsResponse } from "../models";
+import { Transaction, PointsResponse } from '../models';
 
 export const db: Array<Transaction> = []
 
